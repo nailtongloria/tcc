@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="css/style.css" rel="stylesheet"/>
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+        </script>
+
+    </h:head>
+    <h:body>
+
+        <h:form class="form-horizontal" >
+            <div class="col-xs-10 col-xs-offset-5">
+                <a style="font-size:20px;"> Escudo do Consumidor</a>
+            </div>
+            <br> </br>
+            <div class="wrapper container">
+                <div class="row">
+                    <div class="form-group">
+                        <br></br>
+                        <h:outputLabel  class="col-xs-4 control-label">Estado</h:outputLabel>
+                        <div class="col-xs-15">
+                            <h:selectOneMenu   class="form-control" value="#{estadoBean.estado}" 
+                                               converter="#{estadoConverter}" style="width: 400px">
+                                <f:ajax event="change" render="comboCidade"  
+                                        listener="#{estadoBean.listarCidade()}"/>
+
+                                <f:selectItems  value="#{estadoBean.estados}" 
+                                                var="estado" itemValue="#{estado}"
+                                                itemLabel="#{estado.uf}"/>
+
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel  class="col-xs-4 control-label">Cidade</h:outputLabel>
+                        <div class="col-xs-15">
+
+                            <h:selectOneMenu class="form-control" value="#{estadoBean.cidade}" 
+                                             required="false"  id="comboCidade" 
+                                             converter="#{cidadecConverter}" style="width: 400px" >
+                                <f:selectItems value="#{estadoBean.cidades}" var="cidade" 
+                                               itemValue="#{cidade}" 
+                                               itemLabel="#{cidade.nome}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <h:outputLabel  class="col-xs-4 control-label">Loja</h:outputLabel>
+                        <div class="col-xs-15">
+
+                            <p:inputText  id="lojas" value="#{estadoBean.loja}" style="width: 400px" />
+                            <p:commandButton icon="ui-icon-search" update="growl" actionListener="#{estadoBean.testeDialogo()}">
+                                <p:ajax event="dialogReturn" listener="#{estadoBean.nome_lojaSelecionado}"
+                                        process="@this" update="lojas" />
+                            </p:commandButton>
+
+
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+
+                        <div class="col-xs-10 col-xs-offset-4">
+
+                            <h:outputLabel value="2010" style="margin-right:5px" />
+                            <p:selectBooleanCheckbox   value="#{estadoBean.valor2010}" style="margin-right:10px"/>
+                            <h:outputLabel   value="2011" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox  value="#{estadoBean.valor2011}" style="margin-right:10px"/>
+                            <h:outputLabel   value="2012" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox  value="#{estadoBean.valor2012}" style="margin-right:10px" />
+                            <h:outputLabel   value="2013" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox value="#{estadoBean.valor2013}"  style="margin-right:10px"/>
+                            <h:outputLabel   value="2014" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox  value="#{estadoBean.valor2014}"  style="margin-right:10px"/>
+
+
+                        </div>
+
+                        <div class="col-xs-10 col-xs-offset-4">
+                            <h:outputLabel   value="2015" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox  value="#{estadoBean.valor2015}" style="margin-right:10px" />
+                            <h:outputLabel   value="2016" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox  value="#{estadoBean.valor2016}" style="margin-right:10px"  />
+                            <h:outputLabel    value="2017" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox  value="#{estadoBean.valor2017}" style="margin-right:10px"  />
+                            <h:outputLabel    value="todos" style="margin-right:5px"/>
+                            <p:selectBooleanCheckbox  value="#{estadoBean.todo_valores}" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-4 control-label">
+                            <p:growl id="growl" showDetail="true" sticky="true" life="2000"/> 
+                            <p:commandButton value="consultar" update="growl"  onclick="PrimeFaces.monitorDownload(start, stop);" >
+                                <f:ajax listener="#{estadoBean.botao()}"  execute="@all" render="@all" event="click"  />
+                            </p:commandButton>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <p:chart type="bar" model="#{estadoBean.barModel}"  style="width:800px;height:320px"/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage value="/imagem/carregamento.gif" />
+            </p:dialog>
+        </p:ajaxStatus>
+    </h:body>
+
+</html>
+

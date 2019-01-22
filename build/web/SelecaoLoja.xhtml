@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <i id="customheader" class="fa fa-fw fa-car" style="display:none"></i>
+
+            <p:dataTable var="lojas" value="#{estadoBean.nomes_loja}" emptyMessage="Esta loja não consta no registro de reclamações desta cidade">
+                <p:column headerText="lojas">
+                    <h:outputText value="#{lojas.nome}" />
+                </p:column>
+                <p:column headerText="Selecionar">
+                    <p:commandButton icon="ui-icon-check" title="Selecionar"
+                                  action="#{estadoBean.pegarValorTabela(lojas)}"
+                                  process="@this"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
